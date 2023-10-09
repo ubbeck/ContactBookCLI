@@ -19,58 +19,58 @@ class Contact{
         int p = 0)
         : name(n), surname(s), email(e), phone(p) {}
     
-    // Getters
-    std::string getName() const {
-        return name;
-    }
+        // Getters
+        std::string getName() const {
+            return name;
+        }
 
-    std::string getSurname() const {
-        return surname;
-    }
+        std::string getSurname() const {
+            return surname;
+        }
 
-    std::string getEmail() const {
-        return email;
-    }
+        std::string getEmail() const {
+            return email;
+        }
 
-    int getPhone() const {
-        return phone;
-    }
+        int getPhone() const {
+            return phone;
+        }
 
-    // Setters
-    void setName(const std::string& n) {
-        name = n;
-    }
+        // Setters
+        void setName(const std::string& n) {
+            name = n;
+        }
 
-    void setSurname(const std::string& s) {
-        surname = s;
-    }
+        void setSurname(const std::string& s) {
+            surname = s;
+        }
 
-    void setEmail(const std::string& e) {
-        email = e;
-    }
+        void setEmail(const std::string& e) {
+            email = e;
+        }
 
-    void setPhone(int p) {
-        phone = p;
-    }
+        void setPhone(int p) {
+            phone = p;
+        }
 
-    static Contact loadContact(std::ifstream &f){
-        Contact contact;
-        std::getline(f, contact.name);
-        std::getline(f, contact.surname);
-        std::getline(f, contact.email);
-        f >> contact.phone;
-        return contact;
-    }
+        static Contact loadContact(std::ifstream &f){
+            Contact contact;
+            std::getline(f, contact.name);
+            std::getline(f, contact.surname);
+            std::getline(f, contact.email);
+            f >> contact.phone;
+            return contact;
+        }
 
-    static void writeContact(std::ofstream &f, const Contact &contact){
-        f << contact.getName();
-        f << "\n";
-        f << contact.getSurname();
-        f << "\n";
-        f << contact.getEmail();
-        f << "\n";
-        f << contact.getPhone();
-    }
+        static void writeContact(std::ofstream &f, const Contact &contact){
+            f << contact.getName();
+            f << "\n";
+            f << contact.getSurname();
+            f << "\n";
+            f << contact.getEmail();
+            f << "\n";
+            f << contact.getPhone();
+        }
 };
 
 bool operator==(Contact c1, Contact c2){

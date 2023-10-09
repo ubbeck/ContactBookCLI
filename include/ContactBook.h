@@ -4,12 +4,38 @@
 
 class ContactBook : public LinkedList<Contact>{
     public:
+        Contact createContact();
         void loadData(std::string fileName);
         void writeData(std::string fileName);
+        int numberContacts();
         Node<Contact>* filterByLetter(char letter, bool byName, bool bySurname);
-        Node<Contact>* search(const std::string &searchTerm, bool byName, bool bySurname);
-        int getContactIndex(std::string name, std::string surname); 
+        Node<Contact>* search(const std::string &searchTerm, bool byName, bool bySurname, bool byEmail);
+        int getContactIndex(std::string name, std::string surname);
+        int searchType();
+        Node<Contact>* userInputToSearch(int op);
+        bool addContact();
+        int toUpdate();
+        void modifyContactValues(Contact &contact);
+        bool updateContact(); 
 };
+
+Contact ContactBook::createContact(){
+    std::string name, surname, email;
+    int phone;
+    std::cout << "Name: ";
+    std::cin.ignore();
+    std::getline(std::cin, name, '\n');
+    std::cout << "Surname: ";
+    std::cin.ignore();
+    std::getline(std::cin, surname, '\n');
+    std::cout << "Email: ";
+    std::cin.ignore();
+    std::getline(std::cin, email, '\n');
+    std::cout << "Phone: ";
+    std::cin >> phone;
+    Contact newContact(name, surname, email, phone);
+    return newContact;
+}
 
 void ContactBook::loadData(std::string fileName){
     std::ifstream file;
@@ -43,6 +69,10 @@ void ContactBook::writeData(std::string fileName){
     file.close();
 }
 
+int ContactBook::numberContacts(){
+    return length;
+}
+
 Node<Contact>* ContactBook::filterByLetter(char letter, bool byName, bool bySurname) {
     Node<Contact> *newList = nullptr;
     Node<Contact> *lastNode = nullptr;
@@ -73,7 +103,7 @@ Node<Contact>* ContactBook::filterByLetter(char letter, bool byName, bool bySurn
     return newList;
 }
 
-Node<Contact>* ContactBook::search(const std::string &searchTerm, bool byName, bool bySurname){
+Node<Contact>* ContactBook::search(const std::string &searchTerm, bool byName, bool bySurname, bool byEmail){
     Node<Contact> *newList = nullptr;
     Node<Contact> *lastNode = nullptr;
     Node<Contact> *temp = head;
@@ -85,6 +115,9 @@ Node<Contact>* ContactBook::search(const std::string &searchTerm, bool byName, b
         }
         if(bySurname){
             match = match && (temp->value.getSurname() == searchTerm);
+        }
+        if(byEmail){
+            match = match && (temp->value.getEmail() == searchTerm);
         }
         if(match){
             Node<Contact> *newNode = new Node<Contact>(temp->value);
@@ -125,4 +158,151 @@ bool LinkedList<Contact>::updateNode(Contact value, int index){
         ok = true;
     }
     return ok;
+}
+
+int ContactBook::searchType(){
+    int op = -1;
+    std::cout << "Search by:\n";
+    while(op < 0 || op > 3){
+        std::cout << "1.Name\n";
+        std::cout << "2.Surname\n";
+        std::cout << "3.Email\n";
+        std::cout << "0.Back\n";
+        std::cout << " >> ";
+        std::cin >> op;
+    }
+    return op;
+}
+
+Node<Contact>* ContactBook::userInputToSearch(int op){
+    Node<Contact> *temp = nullptr;
+    std::string aux;
+    switch (op)
+    {
+    case 1:
+    {
+        std::cout << "Name: ";
+        std::cin.ignore();
+        std::getline(std::cin, aux, '\n');
+        temp = search(aux, true, false, false);
+        break;
+    }
+    case 2:
+    {
+        std::cout << "Surname: ";
+        std::cin.ignore();
+        std::getline(std::cin, aux, '\n');
+        temp = search(aux, false, true, false);
+        break;
+    }
+    case 3:
+    {
+        std::cout << "Email: ";
+        std::cin.ignore();
+        std::getline(std::cin, aux, '\n');
+        temp = search(aux, false, false, true);
+        break;
+    }
+    case 0:
+        break;
+    }
+    return temp;
+}
+
+bool ContactBook::addContact(){
+    try
+    {
+        Contact newContact = createContact();
+        append(newContact);
+        return true;
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+        return false;
+    }
+}
+
+int ContactBook::toUpdate(){
+    int op = -1;
+    std::cout << "To update:\n";
+    while(op < 0 || op > 4){
+        std::cout << "1.Name\n";
+        std::cout << "2.Surname\n";
+        std::cout << "3.Email\n";
+        std::cout << "4.Phone\n";
+        std::cout << "0.Update\n";
+        std::cout << " >> ";
+        std::cin >> op;
+    }
+    return op;
+}
+
+void ContactBook::modifyContactValues(Contact &contact){
+    bool updating = true;
+    std::string aux;
+    int num;
+    while(updating){
+        switch (toUpdate())
+        {
+        case 1:
+        {
+            std::cout << "Old value: " << contact.getName() << "\n";
+            std::cout << "New value: ";
+            std::cin.ignore();
+            std::getline(std::cin, aux, '\n');
+            contact.setName(aux);
+            break;
+        }
+        case 2:
+        {
+            std::cout << "Old value: " << contact.getSurname() << "\n";
+            std::cout << "New value: ";
+            std::cin.ignore();
+            std::getline(std::cin, aux, '\n');
+            contact.setSurname(aux);
+            break;
+        }
+        case 3:
+        {
+            std::cout << "Old value: " << contact.getEmail() << "\n";
+            std::cout << "New value: ";
+            std::cin.ignore();
+            std::getline(std::cin, aux, '\n');
+            contact.setEmail(aux);
+            break;
+        }
+        case 4:
+        {
+            std::cout << "Old value: " << contact.getPhone() << "\n";
+            std::cout << "New value: ";
+            std::cin >> num;
+            contact.setPhone(num);
+            break;
+        }
+        case 0:
+        {
+            updating = false;
+            break;
+        }
+        }
+    }
+}
+
+bool ContactBook::updateContact(){
+    //Search contact
+    std::string name, surname;
+    std::cout << "Contact to Modify\n";
+    std::cout << "Name: ";
+    std::cin >> name;
+    std::cout <<"Surname: ";
+    std::cin >> surname;
+    int index = getContactIndex(name, surname);
+    if(index == -1) {return false;} // Contact not found
+    //Contact found
+    Node<Contact> *temp = get(index);
+    Contact contact(temp->value.getName(), temp->value.getSurname(), temp->value.getEmail(), temp->value.getPhone());
+    modifyContactValues(contact);
+    updateNode(contact, index);
+    return true;
 }

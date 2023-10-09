@@ -69,6 +69,7 @@ class LinkedList{
         void deleteNode(int index);
         void removeDuplicates();
         bool updateNode(T value, int index);
+        void clear();
 };
 
 /* ------------------------ PROTECTED METHODS ------------------------ */
@@ -156,7 +157,6 @@ void LinkedList<T>::printList(){
         std::cout << temp->value << "\n";
         temp = temp->next;
     }
-    std::cout << "Length: " << length << "\n";
     std::cout << "\n";
 }
 
@@ -220,6 +220,25 @@ bool LinkedList<T>::updateNode(T value, int index){
         ok = true;
     }
     return ok;
+}
+
+template<typename T>
+void LinkedList<T>::clear(){
+    if(length == 0) {return;}
+    Node<T> *temp = head;
+    if(length == 1){
+        head = nullptr;
+        tail = nullptr;
+        delete temp;
+    }
+    else{
+        while(temp->next != nullptr){
+            head = head->next;
+            delete temp;
+            temp = head;
+        }
+    }
+    length = 0;
 }
 
 #endif //LINKED_LIST_H
