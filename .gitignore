@@ -1,4 +1,7 @@
 .vscode/
+bin/
+build/
+debug/
 *.exe
 *.ilk
 *.pdb

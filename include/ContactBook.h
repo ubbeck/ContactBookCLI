@@ -26,10 +26,8 @@ Contact ContactBook::createContact(){
     std::cin.ignore();
     std::getline(std::cin, name, '\n');
     std::cout << "Surname: ";
-    std::cin.ignore();
     std::getline(std::cin, surname, '\n');
     std::cout << "Email: ";
-    std::cin.ignore();
     std::getline(std::cin, email, '\n');
     std::cout << "Phone: ";
     std::cin >> phone;
@@ -142,22 +140,13 @@ int ContactBook::getContactIndex(std::string name, std::string surname){
     else{
         Node<Contact> *temp = head;
         index = 0;
-        while(temp->value.getName() != name && temp->value.getSurname() != surname){
+        while(temp != nullptr){
+            if(temp->value.getName() == name && temp->value.getSurname() == surname) {return index;}
             temp = temp->next;
             index++;
         }
     }
-    return index;
-}
-
-bool LinkedList<Contact>::updateNode(Contact value, int index){
-    bool ok = false;
-    Node<Contact> *temp = get(index);
-    if(temp != nullptr){
-        temp->value = value;
-        ok = true;
-    }
-    return ok;
+    return -1;
 }
 
 int ContactBook::searchType(){

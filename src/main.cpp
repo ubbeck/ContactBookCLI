@@ -48,8 +48,8 @@ int main(){
             break;
         }
         case 4:
-            cb.updateContact();
-            std::cout << "DONE\n";
+            if(cb.updateContact()) {std::cout << "DONE\n";}
+            else {std::cout << "Contact not updated\n";}
             std::cout << std::endl;
             break;
         case 5:
@@ -74,7 +74,8 @@ int main(){
             std::string name, surname;
             std::cout << "Contact to Modify\n";
             std::cout << "Name: ";
-            std::cin >> name;
+            std::cin.ignore();
+            std::getline(std::cin, name, '\n');
             std::cout <<"Surname: ";
             std::cin >> surname;
             int index = cb.getContactIndex(name, surname);
