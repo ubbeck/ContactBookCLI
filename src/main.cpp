@@ -11,7 +11,7 @@ const std::string DB = "db.txt";
 int menu();
 
 int main(){
-    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF); // Comment this line if you're not using MSVC compiler
     
     ContactBook cb;
     cb.loadData(DB);
