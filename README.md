@@ -24,6 +24,7 @@ The project has been developed in **VSCode** using the **MSVC** compiler.
 
 It has also been tested with the **MinGW** compiler version 12.2.0  
 ```bash
-g++ -g -std=c++20 main.cpp -o main.exe
+g++ -o contact_book src/main.cpp -Iinclude
+
 ```  
 The file `tracking_memory.h`, used to detect memory leaks, can be removed from the include headers if MSVC is not used.
