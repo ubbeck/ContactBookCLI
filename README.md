@@ -12,7 +12,7 @@ Small command line project to practice the implementation and application of the
 
 - **Operator Overloading**: Overloading operators for custom types
 
-- **Data Persistence**: Implementing data persistence by reading and writing contact information to an external file, allowing to store and retrieve contacts between sessions.  
+- **Data Persistence**: Data persistence by reading and writing contact information to an external file, allowing you to store and retrieve contacts between sessions  
 
 ## Possible updates
 - Replace external files with database
@@ -21,7 +21,7 @@ Small command line project to practice the implementation and application of the
 ## Build
 
 The project has been developed in **VSCode** using the **MSVC** compiler.  
-  
+
 It has also been tested with the **MinGW** compiler version 12.2.0  
 ```bash
 g++ -g -std=c++20 main.cpp -o main.exe
